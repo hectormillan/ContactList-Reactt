@@ -1,21 +1,14 @@
-import React, {useActionState, useContext, useEffect, useInsertionEffect, useState} from "react";
+import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import { Link, useNavigate } from "react-router-dom";
 
 
 export const DetailView = () => {
 
-     const { store, actions  } = useContext(Context);
-     const navigate = useNavigate();
-     const [categoria, setCategoria ] = useState(store.selectedCategory);
-     const [elemento, setElemento ] = useState(store.selectedElement);
-     const [arrayDelElemento, setArrayDelElemento] = useState(Object.entries(store.selectedElement));
+     const { store } = useContext(Context);
+   
      
-
-     const actualizarInfo = () => {
-          setElemento(store.selectedElement);
-     }
-         
+          
               
     return (
 
@@ -32,16 +25,26 @@ export const DetailView = () => {
                                    <img className="card-img-top" style={{ width: '400px', height: '400px' }} src={`https://starwars-visualguide.com/assets/img/${store.selectedCategory=== "people" ? "characters" : store.selectedCategory }/${store.selectedElementId}.jpg`} alt="Card image cap"/>
                                                                   
                               </div>
+                       
+                              <div className="card-body col col-4">
 
-                              <div className="card-body col col-4"></div>
-                    </div>
-                </div>
+                                      
+                                        <div>
+                                                  {store.arrayElement.map(([clave, valor], index) => (
+                                                       <span key={index}>
+                                                            <spam className="mb-2 d-block" >{clave} : {valor}</spam>
+                                                       </span>
+                                                  ))}
+               
+                                        </div>
+                              </div>
+                      </div>
                         
-                <Link to="/show-elements" >
-                                        <a href="#" className="btn btn-primary">Back</a>
-                                
-              </Link>
-                  
+                         <Link to="/show-elements" >  
+                                                  <a href="#" className="btn btn-primary">Back</a>
+                                        
+                          </Link>
+                  </div>
         </div>
     )   
 }

@@ -113,9 +113,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		
 				const data = await response.json();
 				setStore({elements: data.results});
-				
-				
-						
+										
 			},
 
 			getElementInfoByShow: async (id) => {
@@ -146,13 +144,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const data = await response.json();
 				
 
-				let datosArray = [];
-				datosArray = [Object.entries(data.result.properties)];
-				setStore({arrayElement: [datosArray]});
-				console.log(arrayElement);
+				let datosArray = "";
+				datosArray = Object.entries(data.result.properties);
+				setStore({arrayElement: datosArray});
+				
 
 			//	setStore({arrayElement: datosArray[0]});
-				 console.log();
+				
 
 				
 				setStore({selectedElement: data.result.properties});
