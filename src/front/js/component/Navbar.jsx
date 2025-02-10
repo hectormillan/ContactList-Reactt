@@ -21,10 +21,10 @@ export const Navbar = () => {
 	
 	}
 
-	const vistaDetalle = (element) => {
+	const vistaDetalle = (element,categoria) => {
 
-		actions.getElementInfo(element);
-
+		actions.getElementInfoByFavorites(element,categoria);
+		
       //  actions.setSelectedElements(element);
    //     actions.setSelectedElementId(element);
        navigate("/detail-view");
@@ -57,7 +57,7 @@ export const Navbar = () => {
 				</div>
 				
 				<div className="d-flex justify-content-center col col-lg-3 p-4">
-					<Link to="/contact-list">
+					<Link to="/Login">
 						<span className="navbar-brand mb-0 h1">{"CONTACTS"}</span>
 					</Link>
 				</div>
@@ -85,29 +85,29 @@ export const Navbar = () => {
 								>
 									Favorites ({favorites.length})
 								</button>
-						<ul className="dropdown-menu" aria-labelledby="favoritesDropdown">
-							{favorites.length > 0 ? (
-								favorites.map((fav, index) => (
-									<li key={index} className="dropdown-item d-flex justify-content-between">
+					<ul className="dropdown-menu" aria-labelledby="favoritesDropdown">
+						{favorites.length > 0 ? (
+							favorites.map((fav, index) => (
+								<li key={index} className="dropdown-item d-flex justify-content-between">
 
-									
 
-									 <Link to="/detail-view" >
-									   <span type="button" className="" onClick={(element) => vistaDetalle(fav.elemento.uid)} >{fav.elemento.name}</span>
+
+									<Link to="/detail-view" >
+										<span type="button" className="" onClick={(element, categoria) => vistaDetalle(fav.elemento.uid, fav.categoria)} >{fav.elemento.name}</span>
 									</Link>
 
-										<button className="btn btn-sm btn-danger ms-2" onClick={() => actions.removeFavorite(index)}>
-											<i className="fas fa-trash"></i>
-										</button>
-									</li>
-								))
+									<button className="btn btn-sm btn-danger ms-2" onClick={() => actions.removeFavorite(index)}>
+										<i className="fas fa-trash"></i>
+									</button>
+								</li>
+							))
 							) : (
-								<>
-									<li className="dropdown-item">No favorites added</li>
-									<li className="dropdown-divider"></li>
-								</>
-							)}
-						</ul>
+							<>
+								<li className="dropdown-item">No favorites added</li>
+								<li className="dropdown-divider"></li>
+							</>
+						)}
+					</ul>
 					</div>
 				
 

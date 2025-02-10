@@ -26,7 +26,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			elements: [],
 			selectedElement: {},
 			selectedElementId: "",
-			favorites: [] 
+			favorites: [] ,
+			arrayElement:[]
 			
 
 		},
@@ -34,6 +35,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			setUser: (newUser) => {setStore({user: newUser})},
 			setSelectedElements: (elemento) => {setStore({selectedElement: elemento})},
+			setArrayElement: (elemento) => {setStore({arrayElement: elemento})},
 			setSelectedElementId: (valor) => {setStore({selectedElementId: valor+1})},
 			
 			setAlert: (newAlert) => {
@@ -112,18 +114,62 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const data = await response.json();
 				setStore({elements: data.results});
 				
+				
 						
 			},
 
-			getElementInfo: async (event) => {
+			getElementInfoByShow: async (id) => {
+				
+				event.preventDefault();
 
+				const store = getStore();
+				const actions = getActions();
+			
+				
+				const uri = `https://www.swapi.tech/api/${store.selectedCategory}/${id}`;
+		//		const uri = `https://www.swapi.tech/api/people`;
+
+		
+				
+				const options = {
+					method: 'GET'
+				}
+			
+				const response = await fetch(uri,options);
+		
+				if (!response.ok) {
+															
+					return
+				}
+		
+				
+				const data = await response.json();
+				
+
+				let datosArray = [];
+				datosArray = [Object.entries(data.result.properties)];
+				setStore({arrayElement: [datosArray]});
+				console.log(arrayElement);
+
+			//	setStore({arrayElement: datosArray[0]});
+				 console.log();
+
+				
+				setStore({selectedElement: data.result.properties});
+				setStore({selectedElementId: data.result.uid});
+							
+				
+		
+			},
+
+			getElementInfoByFavorites: async (elemento,categoria) => {
 			
 
 				const store = getStore();
 				const actions = getActions();
 			
 				
-				const uri = `https://www.swapi.tech/api/${store.selectedCategory}/${event}`;
+				const uri = `https://www.swapi.tech/api/${categoria}/${elemento}`;
 		//		const uri = `https://www.swapi.tech/api/people`;
 
 		
@@ -143,8 +189,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const data = await response.json();
 				setStore({selectedElement: data.result.properties});
 				setStore({selectedElementId: data.result.uid});
-				
-				
+
+				let datosArray = [];
+				datosArray = Object.entries(data.result.properties);
+				setStore({arrayElement: datosArray});
+								
 			
 				
 		
