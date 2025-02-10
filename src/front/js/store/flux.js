@@ -60,7 +60,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 const store = getStore();
 				const favorito = {elemento: item, categoria: categoria}
                 const isAlreadyFavorite = store.favorites.some((fav) => fav.elemento.name === item.name);
-				console.log(isAlreadyFavorite)
+				
 				
 				
 
@@ -87,9 +87,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				const store = getStore();
 				const actions = getActions();
+
 			
 				
-				const uri = `https://www.swapi.tech/api/${store.selectedCategory}`;
+				
+					const uri = `https://www.swapi.tech/api/${store.selectedCategory}`; 
+				
+							
+				
+				
 		//		const uri = `https://www.swapi.tech/api/people`;
 				
 				const options = {

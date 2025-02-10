@@ -40,7 +40,7 @@ export const ShowElements = () => {
                                             <h5 className="card-title mb-2">{iterator.name}</h5>
                                                                                   
                                             <Link to="/detail-view" >
-                                                        <button type="button" className="btn btn-primary mb-2" onClick={(event) => actions.getElementInfo(iterator.uid)} >Ver elemento</button>
+                                                        <button type="button" className="btn btn-primary mb-2" onClick={(event) => actions.getElementInfo(iterator.uid,"")} >Ver elemento</button>
                                             </Link>
                                             
                                             <button
