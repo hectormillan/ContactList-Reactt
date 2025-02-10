@@ -14,10 +14,11 @@ import { ContactList } from "./component/ContactList.jsx";
 import { AddContact } from "./component/AddContact.jsx";
 import { EditContact } from "./component/EditContact.jsx";
 import { NoLogged } from "./component/NoLogged.jsx";
+import { ShowElements } from "./component/ShowElements.jsx";
+import { DetailView } from "./component/DetailView.jsx";
+
+
 import { Login } from "./pages/Login.jsx";
-
-
-
 
 import { Footer } from "./component/Footer.jsx";
 
@@ -41,8 +42,10 @@ const Layout = () => {
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<ContactList />} path="/contact-list" />  
                         <Route element={<NoLogged />} path="/no-logged" /> 
-                        <Route element={<EditContact />} path="/edit-contact" />              
+                        <Route element={<EditContact />} path="/edit-contact" /> 
+                        <Route element={<ShowElements />} path="/show-elements" />      
                         <Route element={<Login />} path="/Login" />  
+                        <Route element={<DetailView />} path="/detail-view" />  
                         <Route element={<h1>Not found!</h1>} path="*" />
                     </Routes>
                     <Footer />

@@ -21,13 +21,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 			isEditing: false,
 			host: "https://playground.4geeks.com",
 			isLogged: false,
-			alert : {text: 'Mi primer alert', visible: false, background: 'success'}
+			alert : {text: 'Mi primer alert', visible: false, background: 'success'},
+			selectedCategory: "",
+			elements: [],
+			selectedElement: {},
+			selectedElementId: "",
+			favorites: [] 
+			
 
 		},
 		actions: {
 
 			setUser: (newUser) => {setStore({user: newUser})},
-
+			setSelectedElements: (elemento) => {setStore({selectedElement: elemento})},
+			setSelectedElementId: (valor) => {setStore({selectedElementId: valor+1})},
+			
 			setAlert: (newAlert) => {
 				setStore({alert: newAlert});
 
@@ -47,6 +55,108 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 			// Use getActions to call a function within a fuction
+
+			addFavorite: (item,categoria) => {
+                const store = getStore();
+				const favorito = {elemento: item, categoria: categoria}
+                const isAlreadyFavorite = store.favorites.some((fav) => fav.name === item.name);
+
+                if (!isAlreadyFavorite) {
+                    setStore({ favorites: [...store.favorites,{ elemento: item, categoria: categoria} ] });
+                }
+
+				console.log(store.favorites);
+            },
+
+             //  const updatedFavorites = store.favorites.filter((fav) => fav !== name); 
+            removeFavorite: (index) => {
+                const store = getStore();
+             
+			    const updatedFavorites = store.favorites.filter((_,i) => i !== index);
+                setStore({ favorites: updatedFavorites });
+				console.log(index);
+            },
+
+			getElements: async (event) => {
+
+				event.preventDefault();
+			
+
+				const store = getStore();
+				const actions = getActions();
+			
+				
+				const uri = `https://www.swapi.tech/api/${store.selectedCategory}`;
+		//		const uri = `https://www.swapi.tech/api/people`;
+				
+				const options = {
+					method: 'GET'
+				}
+			
+				const response = await fetch(uri,options);
+		
+				if (!response.ok) {
+															
+					return
+				}
+		
+				const data = await response.json();
+				setStore({elements: data.results});
+				
+						
+			},
+
+			getElementInfo: async (event) => {
+
+			
+
+				const store = getStore();
+				const actions = getActions();
+			
+				
+				const uri = `https://www.swapi.tech/api/${store.selectedCategory}/${event}`;
+		//		const uri = `https://www.swapi.tech/api/people`;
+
+		
+				
+				const options = {
+					method: 'GET'
+				}
+			
+				const response = await fetch(uri,options);
+		
+				if (!response.ok) {
+															
+					return
+				}
+		
+				
+				const data = await response.json();
+				setStore({selectedElement: data.result.properties});
+				setStore({selectedElementId: data.result.uid});
+				
+				
+			
+				
+		
+			},
+
+			setSelectedCategory: (c) => {
+
+				const store = getStore();
+				const actions = getActions();
+				
+				setStore({selectedCategory: c});
+							
+				actions.getElements(event);
+
+			
+			},		
+
+			
+
+			
+
 
 			createUser: async (event) => {
 
@@ -218,6 +328,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 		
 			
 			},
+
+			
 
 
 			exampleFunction: () => {
