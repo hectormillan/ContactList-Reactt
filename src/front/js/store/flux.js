@@ -59,13 +59,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 			addFavorite: (item,categoria) => {
                 const store = getStore();
 				const favorito = {elemento: item, categoria: categoria}
-                const isAlreadyFavorite = store.favorites.some((fav) => fav.name === item.name);
+                const isAlreadyFavorite = store.favorites.some((fav) => fav.elemento.name === item.name);
+				console.log(isAlreadyFavorite)
+				
+				
 
                 if (!isAlreadyFavorite) {
                     setStore({ favorites: [...store.favorites,{ elemento: item, categoria: categoria} ] });
                 }
 
-				console.log(store.favorites);
+				
             },
 
              //  const updatedFavorites = store.favorites.filter((fav) => fav !== name); 

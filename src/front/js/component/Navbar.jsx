@@ -23,8 +23,10 @@ export const Navbar = () => {
 
 	const vistaDetalle = (element) => {
 
-        actions.setSelectedElements(element);
-     //   actions.setSelectedElementId(index);
+		actions.getElementInfo(element);
+
+      //  actions.setSelectedElements(element);
+   //     actions.setSelectedElementId(element);
        navigate("/detail-view");
 
 
@@ -91,7 +93,7 @@ export const Navbar = () => {
 									
 
 									 <Link to="/detail-view" >
-									   <span type="button" className="" onClick={(element) => vistaDetalle(fav.elemento)} >{fav.elemento.name}</span>
+									   <span type="button" className="" onClick={(element) => vistaDetalle(fav.elemento.uid)} >{fav.elemento.name}</span>
 									</Link>
 
 										<button className="btn btn-sm btn-danger ms-2" onClick={() => actions.removeFavorite(index)}>
