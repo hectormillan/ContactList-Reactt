@@ -1,4 +1,4 @@
-import React, { useContext,useState, useEffect } from "react";  
+import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -7,42 +7,42 @@ export const Navbar = () => {
 
 	const { store, actions } = useContext(Context);
 	const navigate = useNavigate();
-	const categorias = ["PEOPLE","PLANETS","SPECIES", "STARSHIPS", "VEHICLES"];
+	const categorias = ["PEOPLE", "PLANETS", "SPECIES", "STARSHIPS", "VEHICLES"];
 	const favorites = store.favorites || [];
 
 
 	const selectedCategory = (category) => {
 
-	//	actions.getElements(category);
+		//	actions.getElements(category);
 
-	actions.setSelectedCategory(category);
-	
-	
-	
+		actions.setSelectedCategory(category);
+
+
+
 	}
 
-	const vistaDetalle = (element,categoria) => {
+	const vistaDetalle = (element, categoria) => {
 
-		actions.getElementInfoByFavorites(element,categoria);
-		
-      //  actions.setSelectedElements(element);
-   //     actions.setSelectedElementId(element);
-       navigate("/detail-view");
+		actions.getElementInfoByFavorites(element, categoria);
+
+		//  actions.setSelectedElements(element);
+		//     actions.setSelectedElementId(element);
+		navigate("/detail-view");
 
 
-     }
-	
+	}
+
 
 	const desLoguearse = () => {
 
-		
+
 		if (store.isLogged) {
 
 			actions.DesLogging();
 			navigate('/no-logged');
 
 		} else navigate('/Login')
-		
+
 
 	}
 
@@ -55,36 +55,36 @@ export const Navbar = () => {
 						<span className="navbar-brand mb-0 h1">{"HOME"}</span>
 					</Link>
 				</div>
-				
+
 				<div className="d-flex justify-content-center col col-lg-3 p-4">
 					<Link to="/Login">
 						<span className="navbar-brand mb-0 h1">{"CONTACTS"}</span>
 					</Link>
 				</div>
 
-				
-					{categorias.map((iterator) =>
-							<div className="d-flex justify-content-center col col-lg-3 p-4">
-								<Link to="show-elements">
-									<span className="navbar-brand mb-0 h1" onClick={(e)=> actions.setSelectedCategory(iterator.toLowerCase())} >{iterator}</span>
-								</Link>
-							</div>
-		
-						
-					)}
 
-				
-						<div className="dropdown mx-1">
-								<button
-									className="btn btn-primary dropdown-toggle"
-									type="button"
-									id="favoritesDropdown"
-									data-bs-toggle="dropdown"
-									aria-expanded="false"
-									aria-label="Toggle Favorites Dropdown"
-								>
-									Favorites ({favorites.length})
-								</button>
+				{categorias.map((iterator) =>
+					<div className="d-flex justify-content-center col col-lg-3 p-4">
+						<Link to="show-elements">
+							<span className="navbar-brand mb-0 h1" onClick={(e) => actions.setSelectedCategory(iterator.toLowerCase())} >{iterator}</span>
+						</Link>
+					</div>
+
+
+				)}
+
+
+				<div className="dropdown mx-1">
+					<button
+						className="btn btn-primary dropdown-toggle"
+						type="button"
+						id="favoritesDropdown"
+						data-bs-toggle="dropdown"
+						aria-expanded="false"
+						aria-label="Toggle Favorites Dropdown"
+					>
+						Favorites ({favorites.length})
+					</button>
 					<ul className="dropdown-menu" aria-labelledby="favoritesDropdown">
 						{favorites.length > 0 ? (
 							favorites.map((fav, index) => (
@@ -101,15 +101,15 @@ export const Navbar = () => {
 									</button>
 								</li>
 							))
-							) : (
+						) : (
 							<>
 								<li className="dropdown-item">No favorites added</li>
 								<li className="dropdown-divider"></li>
 							</>
 						)}
 					</ul>
-					</div>
-				
+				</div>
+
 
 			</div>
 		</nav>
