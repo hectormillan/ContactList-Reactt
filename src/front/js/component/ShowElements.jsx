@@ -14,9 +14,7 @@ export const ShowElements = () => {
 
      const vistaDetalle = (element) => {
 
-     //    actions.setSelectedElements(element);
-     //   actions.setSelectedElementId(index);
-      actions.getElementInfo(element);
+       actions.getElementInfo(element);
        navigate("/detail-view");
 
 
@@ -31,7 +29,7 @@ export const ShowElements = () => {
                       
        
                                   
-                            {/* recorre el array contact usando la función map(); */}
+                            {/* recorre el array contact usando la función map(); */}  
                             {/* loop through the contact array using the map() function; */}
                             {store.elements.map((iterator, index) =>
                             <div className="col-md-4 mb-4">

@@ -13,9 +13,7 @@ export const Navbar = () => {
 
 	const selectedCategory = (category) => {
 
-		//	actions.getElements(category);
-
-		actions.setSelectedCategory(category);
+			actions.setSelectedCategory(category);
 
 
 
@@ -25,8 +23,6 @@ export const Navbar = () => {
 
 		actions.getElementInfoByFavorites(element, categoria);
 
-		//  actions.setSelectedElements(element);
-		//     actions.setSelectedElementId(element);
 		navigate("/detail-view");
 
 
