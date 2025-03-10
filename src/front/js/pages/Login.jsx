@@ -7,16 +7,21 @@ export const Login = () => {
 
   const { actions  } = useContext(Context);
   const [ email, setEmail ] = useState('');
+  const [ password, setPassword] = useState("");
   const navigate = useNavigate();
   
   const handleEmail = (event) => {
      setEmail(event.target.value.toLowerCase())
   }
+
+  const handlePassword = (event) => {
+    setPassword(event.target.value.toLowerCase())
+  }
   
 
 // Funcion cuando se ejecuta el submit del formulario. 
 // Function when the form submit is executed.
-  const handelSubmit = (event) => {
+  const handelSubmit = async  (event) => {
     event.preventDefault();   
     
     // crea la constante dataToSend para gestionar los datos que se van a enviar 
@@ -24,8 +29,16 @@ export const Login = () => {
    
     // Ejecuta "actions" para almacenar user y isLogged en flux.js.
     // Run "actions" to store user and isLogged in flux.js.
-    actions.setUser(email);
-    actions.setIsLogged(true);
+
+    const success = await actions.login(email, password);
+        if (success) {
+            navigate("/");
+            actions.setUser(email);
+            actions.setIsLogged(true);
+        } else {
+            setError("Invalid credentials. Please try again.");
+        }
+    
 
     // Crea el mensaje que se va a enviar en la alerta
     // Create the message to be sent in the alert
@@ -56,6 +69,18 @@ export const Login = () => {
                   <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" 
                     value={email} onChange={handleEmail} placeholder="Input your email"/>
                   <div id="emailHelp" className="form-text">If the user is not found, one will be created</div>
+                </div>
+
+                <div className="mb-3">
+                    <label htmlFor="InputPassword" className="form-label">Password</label>
+                    <input 
+                        type="password" 
+                        className="form-control" 
+                        id="InputPassword" 
+                        value={password} 
+                        onChange={handlePassword}
+                        required
+                    />
                 </div>
                                     
 

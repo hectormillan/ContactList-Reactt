@@ -225,6 +225,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			},
 
+			login: async (email, password) => {
+				const host = "https://silver-fishstick-vw7ppxg47gp2wv46-3001.app.github.dev";
+				const endpoint = "api/login";
+				const uri = `${host}/${endpoint}`;
+				const options = {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({ email, password })
+				};
+			
+				const response = await fetch(uri, options);
+				if (!response.ok) {
+					console.log("Error", response.status, response.statusText);
+					return false;
+				}
+			
+				const data = await response.json();
+				sessionStorage.setItem("token", data.access_token);
+				
+				return true;
+			},			
+
 			DesLogging: async (event) => {
 
 
