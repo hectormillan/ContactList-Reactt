@@ -37,7 +37,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 			setSelectedElements: (elemento) => { setStore({ selectedElement: elemento }) },
 			setArrayElement: (elemento) => { setStore({ arrayElement: elemento }) },
 			setSelectedElementId: (valor) => { setStore({ selectedElementId: valor + 1 }) },
-
 			setAlert: (newAlert) => {
 				setStore({ alert: newAlert });
 
@@ -225,7 +224,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			},
 
-			login: async (email, password) => {
+			login: async (dataToSend) => {
 				const host = "https://silver-fishstick-vw7ppxg47gp2wv46-3001.app.github.dev";
 				const endpoint = "api/login";
 				const uri = `${host}/${endpoint}`;
@@ -234,7 +233,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					headers: {
 						"Content-Type": "application/json"
 					},
-					body: JSON.stringify({ email, password })
+					body: JSON.stringify({ dataToSend })
 				};
 			
 				const response = await fetch(uri, options);
@@ -244,9 +243,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			
 				const data = await response.json();
-				sessionStorage.setItem("token", data.access_token);
-				
+				// sessionStorage.setItem("token", data.access_token);
+				setStore({
+					user: data.result.first_name,
+					isAdmin: data.results.is_admin,
+					isLogged: true,
+					alert: {text: data.message, visible: true, background: 'success'}
+			})
+				localStorage.setItem("token", data.access_token);
 				return true;
+
 			},			
 
 			DesLogging: async (event) => {

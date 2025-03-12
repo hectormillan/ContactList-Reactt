@@ -55,6 +55,7 @@ def login():
     access_token = create_access_token(identity=email, additional_claims=claims)
     response_body["message"] = "User logged"
     response_body["access_token"] = access_token
+    response_body['result'] = user
     return response_body, 200
 
 

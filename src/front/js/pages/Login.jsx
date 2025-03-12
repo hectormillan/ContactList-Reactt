@@ -22,8 +22,14 @@ export const Login = () => {
 // Funcion cuando se ejecuta el submit del formulario. 
 // Function when the form submit is executed.
   const handelSubmit = async  (event) => {
+
     event.preventDefault();   
-    
+
+    const dataToSend = { email, password }
+    actions.Login(dataToSend)
+    navigate("/");
+/*
+
     // crea la constante dataToSend para gestionar los datos que se van a enviar 
     // Ya no se usa: const dataToSend = { email }
    
@@ -47,11 +53,15 @@ export const Login = () => {
       text: `Bienvenido ${email}`,
       visible: true,
       background: 'warning'
-  }
 
-    actions.setAlert(message);
+        actions.setAlert(message);
     
     navigate('/contact-list')
+    }
+      */
+  
+
+  
    
     
   }
