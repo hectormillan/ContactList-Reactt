@@ -35,6 +35,35 @@ def users():
         return response_body, 200
     
 
+@api.route('/signup', methods=['POST'])
+def signup():
+    data = request.json
+    email = data.get("email")
+    password = data.get("password")
+    if not email or not password:
+        return jsonify({"message": "Email and password are required"}), 400
+    existing_user = Users.query.filter_by(email=email).first()
+    if existing_user:
+        return jsonify({"message": "Email already in use"}), 400
+    new_user = Users(
+    email=email,
+    password=password,
+    first_name=data.get("first_name", ""),
+    last_name=data.get("last_name", ""),
+    is_active=True,
+    is_admin=False)
+
+
+    db.session.add(new_user)
+    db.session.commit()
+    return jsonify({
+        "message": "User created successfully",
+        "first_name": new_user.first_name,  
+        "email": new_user.email,
+        "is_admin": new_user.is_admin
+    }), 201
+
+
 # Create a route to authenticate your users and return JWTs. The
 # create_access_token() function is used to actually generate the JWT.
 @api.route("/login", methods=["POST"])
@@ -53,10 +82,56 @@ def login():
         "is_admin": user["is_admin"]
     }
     access_token = create_access_token(identity=email, additional_claims=claims)
-    response_body["message"] = "User logged"
+    response_body["message"] = f'User {user["first_name"]} logged in'
+    response_body["results"] = user
     response_body["access_token"] = access_token
-    response_body['result'] = user
+    response_body["first_name"] = user["first_name"]
+    response_body["is_admin"] = user["is_admin"]
     return response_body, 200
+
+
+@api.route("/edit-profile/", methods=["PUT"])
+# @jwt_required()
+def edit_user():
+    response_body = {}
+    current_user = get_jwt_identity()
+    response_body["message"] = "Soy el mensaje para el user"
+    data = request.json
+    print("Soy el data", data)
+    row = db.session.execute(db.select(Users).where(Users.email == current_user)).scalar()
+    print("soy la fila", row.serialize())
+    row.first_name = data["first_name"]
+    row.last_name = data["last_name"]
+    row.email = data["email"]
+    # row.is_admin = data["is_admin"]
+    # row.is_active = data["is_active"]
+
+    response_body["results"] = row.serialize()
+    db.session.commit()
+
+    return response_body, 200
+
+
+@api.route("/test", methods=["PUT"])
+@jwt_required()
+def test():
+    response_body= {"hola": "chau"}
+    request_data = request.json
+    token_data = get_jwt()
+    response_body["token_data"] = token_data
+    response_body["request_data"] = request_data
+
+    row = db.session.execute(db.select(Users).where(Users.id == token_data["user_id"])).scalar()
+    print("soy la fila", row.serialize())
+    row.first_name = request_data["first_name"]
+    row.last_name = request_data["last_name"]
+    row.email = request_data["email"]
+    row.is_admin = request_data["is_admin"]
+    row.is_active = request_data["is_active"]
+    db.session.commit()
+    response_body["results"] = row.serialize()
+    return response_body, 200
+
 
 
 # Protect a route with jwt_required, which will kick out requests
