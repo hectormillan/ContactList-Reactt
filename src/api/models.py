@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 
 db = SQLAlchemy()
 
+
 class Users(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -55,10 +56,10 @@ class Posts(db.Model):
     title = db.Column(db.String, nullable=False, unique=True)
     description = db.Column(db.String, nullable=False, unique=True)
     body = db.Column(db.String, nullable=False, unique=True)
-    date = db.Column(db.DateTime, nullable = False, default=datetime.utcnow)
+    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     image_url = db.Column(db.String, nullable=False, unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    user_to = db.relationship("Users", foreign_keys =[user_id], backref=db.backref("user_post_to"), lazy="select")
+    user_to = db.relationship("Users", foreign_keys=[user_id], backref=db.backref("user_post_to"), lazy="select")
 
 
 class Characters(db.Model):
@@ -94,10 +95,9 @@ class CharactersFavourites(db.Model):
     character_to = db.relationship("Characters", backref=db.backref("favourites", lazy=True))
 
     def serialize(self):
-        return {
-            "id": self.id,
-            "user_id": self.user_id,
-            "character_id": self.character_id}    
+        return {"id": self.id,
+                "user_id": self.user_id,
+                "character_id": self.character_id}    
 
 
 class PlanetsFavourites(db.Model):
@@ -109,7 +109,7 @@ class PlanetsFavourites(db.Model):
     planet_to = db.relationship("Planets", backref=db.backref("favourites", lazy=True))
 
     def serialize(self):
-        return{
-            "id": self.id,
-            "user_id": self.user_id,
-            "planet_id": self.planet_id}
+        return{"id": self.id,
+               "user_id": self.user_id,
+               "planet_id": self.planet_id}
+    

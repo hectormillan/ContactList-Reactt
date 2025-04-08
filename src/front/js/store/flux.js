@@ -188,12 +188,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			},
 
-			setSelectedCategory: (c) => {
+			setSelectedCategory: (category) => {
 
 				const store = getStore();
 				const actions = getActions();
 
-				setStore({ selectedCategory: c });
+				setStore({ selectedCategory: category });
 
 				actions.getElements(event);
 
